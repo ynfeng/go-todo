@@ -5,15 +5,11 @@ import (
 )
 
 type ListCmd struct {
-	cmd cobra.Command
+	Base
 	all bool
 }
 
 func (listCmd *ListCmd) Run(cmd *cobra.Command, args []string) {
-}
-
-func (listCmd *ListCmd) CobraCommand() *cobra.Command {
-	return &listCmd.cmd
 }
 
 func NewListCommand() *ListCmd {

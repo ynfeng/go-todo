@@ -7,7 +7,10 @@ import (
 func init() {
 	builder := cmd.NewCommandBuilder()
 	builder.RootCommand(cmd.NewRootCmd())
-	builder.AddCommands(cmd.NewListCommand())
+	builder.AddCommands(
+		cmd.NewListCommand(),
+		cmd.NewAddCmd(),
+	)
 	builder.Build().Start()
 }
 
