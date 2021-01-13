@@ -1,5 +1,7 @@
 # todo 
 
+Manage your todo list.
+
 ## basic usage
 
 add item

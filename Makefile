@@ -37,4 +37,4 @@ vet:
 clean:
 	@if [ -f ${BINARY} ] ; then rm ${BINARY} ; fi
 
-.PHONY: default fmt fmt-check install test vet docker clean
+.PHONY: default fmt fmt-check install test vet clean
