@@ -12,6 +12,10 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: olegtarasov/get-tag@v2.1
+        id: tagName
+        with:
+          tagRegexGroup: 1 
       - name: Install Go
         uses: actions/setup-go@v2
         with:
@@ -24,7 +28,7 @@ jobs:
         run: make build
       - name: Package asset
         run: |
-          tar -czvf todo-${{ matrix.os }}-${{ github.ref }}.tar.gz todo
+          tar -czvf todo-${{ matrix.os }}-${{ steps.tagName.outputs.tag }}.tar.gz todo
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -42,6 +46,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./todo-${{ matrix.os }}-${{ github.ref }}.zip
-          asset_name: todo-${{ matrix.os }}-${{ github.ref }}.zip
+          asset_path: ./todo-${{ matrix.os }}-${{ steps.tagName.outputs.tag }}.zip
+          asset_name: todo-${{ matrix.os }}-${{ steps.tagName.outputs.tag }}.zip
           asset_content_type: application/zip
