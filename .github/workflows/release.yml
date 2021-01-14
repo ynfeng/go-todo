@@ -3,7 +3,7 @@ on:
     tags:
       - 'v*'
 
-name: Create release
+name: Release 
 jobs:
   test:
     strategy:
