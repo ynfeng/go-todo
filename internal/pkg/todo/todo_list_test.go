@@ -20,7 +20,7 @@ func TestListAll(t *testing.T) {
 	todoList.Add(*NewItem("bar"))
 
 	all := todoList.All()
-	
+
 	excepted := []Item{*NewItem("foo"), *NewItem("bar")}
 	assert.Equal(t, excepted, all)
 }

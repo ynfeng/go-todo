@@ -7,6 +7,6 @@ import (
 
 func TestGetTodoList(t *testing.T) {
 	todoList := Context.GetTodoList()
-	
+
 	assert.NotNil(t, todoList)
 }
