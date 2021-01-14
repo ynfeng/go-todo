@@ -1,11 +1,10 @@
 package todo
 
 type AppContext struct {
-	todoList TodoList
 }
 
 func (context *AppContext) GetTodoList() *TodoList {
-	return &context.todoList
+	return NewTodoList()
 }
 
-var Context = &AppContext{*NewTodoList()}
+var Context = &AppContext{}
