@@ -1,6 +1,4 @@
 BINARY="todo"
-VERSION=1.0.0
-BUILD=`date +%FT%T%z`
 
 build:
 	@go build -o ${BINARY} -tags=jsoniter
