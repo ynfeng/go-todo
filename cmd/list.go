@@ -10,6 +10,7 @@ type ListCmd struct {
 }
 
 func (listCmd *ListCmd) Run(cmd *cobra.Command, args []string) {
+	
 }
 
 func NewListCommand() *ListCmd {

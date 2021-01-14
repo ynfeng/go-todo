@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/ynfeng/todo/internal/pkg/console"
+	"github.com/ynfeng/todo/internal/pkg/todo"
 )
 
 type AddCmd struct {
@@ -11,7 +12,12 @@ type AddCmd struct {
 }
 
 func (addCmd *AddCmd) Run(cmd *cobra.Command, args []string) {
-	fmt.Printf("%s added.\n", args[0])
+	name := args[0]
+	todoList := todo.Context.GetTodoList()
+	todoList.Add(*todo.NewItem(name))
+
+	console.PrintItems(todoList.All())
+	console.Printf("%s added.\n", name)
 }
 
 func NewAddCmd() *AddCmd {
