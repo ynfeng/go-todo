@@ -3,23 +3,19 @@ on:
     tags:
       - 'v*'
 
-name: Release 
+name: Release
 jobs:
-  test:
-    strategy:
-      matrix:
-        go-version: [1.15.x]
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+  release:
+    runs-on: macos-latest
     steps:
       - uses: olegtarasov/get-tag@v2.1
         id: tagName
         with:
-          tagRegexGroup: 1 
+          tagRegexGroup: 1
       - name: Install Go
         uses: actions/setup-go@v2
         with:
-          go-version: ${{ matrix.go-version }}
+          go-version: 1.15.x
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Test
@@ -28,14 +24,14 @@ jobs:
         run: make build
       - name: Package asset
         run: |
-          tar -czvf todo-${{ matrix.os }}-${{ steps.tagName.outputs.tag }}.tar.gz todo
+          tar -czvf todo-macos-${{ steps.tagName.outputs.tag }}.tar.gz todo
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}-${{ steps.tagName.outputs.tag }}
+          tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
@@ -46,6 +42,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./todo-${{ matrix.os }}-${{ steps.tagName.outputs.tag }}.tar.gz
-          asset_name: todo-${{ matrix.os }}-${{ steps.tagName.outputs.tag }}.tar.gz
+          asset_path: ./todo-macos-${{ steps.tagName.outputs.tag }}.tar.gz
+          asset_name: todo-macos-${{ steps.tagName.outputs.tag }}.tar.gz
           asset_content_type: application/zip

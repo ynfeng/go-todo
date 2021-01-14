@@ -4,7 +4,7 @@ on:
       - main
 name: Build
 jobs:
-  test:
+  build:
     strategy:
       matrix:
         go-version: [1.15.x]
