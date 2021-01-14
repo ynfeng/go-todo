@@ -1,19 +1,30 @@
 on:
   push:
     tags:
+      - 'v*'
 
-name: Create release 
-
+name: Create release
 jobs:
-  build:
-    name: Upload Release Asset
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        go-version: [1.15.x]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build project 
+      - name: Test
+        run: make test
+      - name: Build
+        run: make build
+      - name: Package asset
         run: |
-          zip --junk-paths my-artifact README.md
+          zip --junk-paths todo-${{ matrix.os }} todo
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -31,6 +42,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./my-artifact.zip
-          asset_name: my-artifact.zip
+          asset_path: ./todo-${{ matrix.os }}.zip
+          asset_name: todo-${{ matrix.os }}.zip
           asset_content_type: application/zip
