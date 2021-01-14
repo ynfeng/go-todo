@@ -22,5 +22,7 @@ func (rootCmd *RootCmd) AddCommand(command Command) {
 }
 
 func NewRootCmd() *RootCmd {
-	return &RootCmd{&cobra.Command{}}
+	command := &cobra.Command{}
+	command.Version = "v0.1-alpha"
+	return &RootCmd{command}
 }
