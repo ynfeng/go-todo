@@ -2,6 +2,14 @@
 
 Manage your todo list.
 
+## installation
+
+### mac os
+
+```
+brew install ynfeng/tab/go-todo
+```
+
 ## basic usage
 
 add item
