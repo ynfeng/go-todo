@@ -12,12 +12,23 @@ type AddCmd struct {
 }
 
 func (addCmd *AddCmd) Run(cmd *cobra.Command, args []string) {
-	name := args[0]
+	if !hasItemName(args) {
+		console.Printf("Usage: add <item name>\n")
+		return
+	}
+	todoList := addItemToTodoList(args[0])
+	console.PrintItems(todoList.All())
+	console.Printf("%s added.\n", args[0])
+}
+
+func addItemToTodoList(name string) *todo.TodoList {
 	todoList := todo.Context.GetTodoList()
 	todoList.Add(*todo.NewItem(name))
+	return todoList
+}
 
-	console.PrintItems(todoList.All())
-	console.Printf("%s added.\n", name)
+func hasItemName(args []string) bool {
+	return !(len(args) == 0 || args[0] == "")
 }
 
 func NewAddCmd() *AddCmd {

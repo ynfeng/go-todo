@@ -21,3 +21,18 @@ func TestAddItem(t *testing.T) {
 
 	assert.Equal(t, "1. foo\n\nfoo added.\n", string(writer.Data))
 }
+
+func TestNotGivenItemName(t *testing.T) {
+	os.Args = []string{"", "add", ""}
+	writer := &console.TestableWriter{}
+	console.SetOut(writer)
+
+	builder := NewCommandBuilder()
+	builder.RootCommand(NewRootCmd())
+	builder.AddCommands(
+		NewAddCmd(),
+	)
+	builder.Build().Start()
+
+	assert.Equal(t, "Usage: add <item name>\n", string(writer.Data))
+}
