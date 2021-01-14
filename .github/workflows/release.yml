@@ -24,7 +24,7 @@ jobs:
         run: make build
       - name: Package asset
         run: |
-          zip --junk-paths todo-${{ matrix.os }}-${{ github.ref }} todo
+          tar -czvf todo-${{ matrix.os }}-${{ github.ref }}.tar.gz todo
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
