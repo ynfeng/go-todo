@@ -1,7 +1,7 @@
 package console
 
 type TestableWriter struct {
-	Data [] byte
+	Data []byte
 }
 
 func (writer *TestableWriter) Write(p []byte) (n int, err error) {

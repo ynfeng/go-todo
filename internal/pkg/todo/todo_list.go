@@ -1,7 +1,7 @@
 package todo
 
 type TodoList struct {
-	items [] Item
+	items []Item
 }
 
 func (list *TodoList) Add(item Item) {

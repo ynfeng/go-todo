@@ -8,7 +8,7 @@ import (
 
 type AddCmd struct {
 	Base
-	args [] string
+	args []string
 }
 
 func (addCmd *AddCmd) Run(cmd *cobra.Command, args []string) {
