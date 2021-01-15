@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/ynfeng/todo/internal/pkg/console"
 	"github.com/ynfeng/todo/internal/pkg/todo"
+	"github.com/ynfeng/todo/internal/pkg/todo/appcontext"
 )
 
 type AddCmd struct {
@@ -22,7 +23,7 @@ func (addCmd *AddCmd) Run(cmd *cobra.Command, args []string) {
 }
 
 func addItemToTodoList(name string) *todo.TodoList {
-	todoList := todo.Context.GetTodoList()
+	todoList := appcontext.GetTodoList()
 	todoList.Add(*todo.NewItem(name))
 	return todoList
 }
