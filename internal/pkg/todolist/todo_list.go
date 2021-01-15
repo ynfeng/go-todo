@@ -1,4 +1,4 @@
-package todo
+package todolist
 
 type TodoList struct {
 	items []Item

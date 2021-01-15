@@ -1,4 +1,4 @@
-package todo
+package todolist
 
 import (
 	"github.com/stretchr/testify/assert"

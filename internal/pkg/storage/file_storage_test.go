@@ -9,7 +9,7 @@ import (
 
 func TestAppendItem(t *testing.T) {
 	randomFile := uuid.NewV4()
-	tempDir, _ := ioutil.TempDir("", "todo-")
+	tempDir, _ := ioutil.TempDir("", "todolist-")
 	storage := NewFileStorage(tempDir, randomFile.String())
 
 	var err = storage.Append("test1")

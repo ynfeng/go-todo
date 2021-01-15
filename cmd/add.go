@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/ynfeng/todo/internal/pkg/appcontext"
 	"github.com/ynfeng/todo/internal/pkg/console"
-	"github.com/ynfeng/todo/internal/pkg/todo"
-	"github.com/ynfeng/todo/internal/pkg/todo/appcontext"
+	"github.com/ynfeng/todo/internal/pkg/todolist"
 )
 
 type AddCmd struct {
@@ -22,9 +22,9 @@ func (addCmd *AddCmd) Run(cmd *cobra.Command, args []string) {
 	console.Printf("%s added.\n", args[0])
 }
 
-func addItemToTodoList(name string) *todo.TodoList {
+func addItemToTodoList(name string) *todolist.TodoList {
 	todoList := appcontext.GetTodoList()
-	todoList.Add(*todo.NewItem(name))
+	todoList.Add(*todolist.NewItem(name))
 	return todoList
 }
 
@@ -36,7 +36,7 @@ func NewAddCmd() *AddCmd {
 	cmd := &AddCmd{}
 	var cobraCmd = cobra.Command{
 		Use:   "add",
-		Short: "Add todo item.",
+		Short: "Add todolist item.",
 		Run:   cmd.Run,
 	}
 	cobraCmd.SetUsageTemplate("Usage: \n   add <item name>\n")

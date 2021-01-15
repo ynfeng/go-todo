@@ -17,10 +17,10 @@ func NewListCommand() *ListCmd {
 	listCmd := &ListCmd{}
 	var cobraCmd = cobra.Command{
 		Use:   "list",
-		Short: "Print unfinished todo list",
+		Short: "Print unfinished todolist list",
 		Run:   listCmd.Run,
 	}
-	cobraCmd.Flags().BoolVarP(&listCmd.all, "all", "a", false, "Print all todo list")
+	cobraCmd.Flags().BoolVarP(&listCmd.all, "all", "a", false, "Print all todolist list")
 	listCmd.cmd = cobraCmd
 	return listCmd
 }

@@ -2,14 +2,14 @@ package console
 
 import (
 	"fmt"
-	"github.com/ynfeng/todo/internal/pkg/todo"
+	"github.com/ynfeng/todo/internal/pkg/todolist"
 	"io"
 	"os"
 )
 
 var out io.Writer = os.Stdout
 
-func PrintItems(items []todo.Item) {
+func PrintItems(items []todolist.Item) {
 	for i, item := range items {
 		fmt.Fprintf(out, "%d. %s\n", i+1, item.Name())
 	}
