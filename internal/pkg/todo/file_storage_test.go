@@ -3,12 +3,14 @@ package todo
 import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
+	"io/ioutil"
 	"testing"
 )
 
 func TestAppendItem(t *testing.T) {
 	randomFile := uuid.NewV4()
-	storage := NewFileStorage("/tmp/go-todo/", randomFile.String())
+	tempDir, _ := ioutil.TempDir("", "todo-")
+	storage := NewFileStorage(tempDir, randomFile.String())
 
 	var err = storage.Append("test1")
 	assert.Nil(t, err)
