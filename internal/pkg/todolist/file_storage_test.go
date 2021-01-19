@@ -12,14 +12,10 @@ func TestAppendItem(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "todolist-")
 	storage := NewFileStorage(tempDir, randomFile.String())
 
-	var err = storage.Append(*NewItem("test1"))
-	assert.Nil(t, err)
+	storage.Append(*NewItem("test1"))
+	storage.Append(*NewItem("test2"))
 
-	err = storage.Append(*NewItem("test2"))
-	assert.Nil(t, err)
-
-	items, err := storage.All()
-	assert.Nil(t, err)
+	items := storage.All()
 	assert.Equal(t, *NewItem("test1"), items[0])
 	assert.Equal(t, *NewItem("test2"), items[1])
 }
@@ -29,14 +25,13 @@ func TestReplaceAll(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "todolist-")
 	storage := NewFileStorage(tempDir, randomFile.String())
 
-	_ = storage.Append(*NewItem("test1"))
-	var allItems, _ = storage.All()
+	storage.Append(*NewItem("test1"))
+	allItems := storage.All()
 	assert.Equal(t, allItems[0], *NewItem("test1"))
 
-	var err = storage.replaceAll(*NewItem("test3"), *NewItem("test4"))
-	assert.Nil(t, err)
+	storage.replaceAll(*NewItem("test3"), *NewItem("test4"))
 
-	replacedItems, _ := storage.All()
+	replacedItems := storage.All()
 	assert.Equal(t, *NewItem("test3"), replacedItems[0])
 	assert.Equal(t, *NewItem("test4"), replacedItems[1])
 }

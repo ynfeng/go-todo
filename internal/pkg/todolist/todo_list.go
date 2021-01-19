@@ -20,7 +20,6 @@ func (list *TodoList) All() []Item {
 
 func NewTodoList(storage Storage) *TodoList {
 	todoList := &TodoList{storage: storage}
-	all, _ := storage.All()
-	todoList.items = all
+	todoList.items = storage.All()
 	return todoList
 }

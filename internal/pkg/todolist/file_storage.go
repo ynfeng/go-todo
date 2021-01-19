@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"os"
 )
 
@@ -13,10 +14,10 @@ type FileStorage struct {
 	fileName string
 }
 
-func (storage FileStorage) Append(item Item) error {
+func (storage FileStorage) Append(item Item) {
 	file, err := openFile(storage)
 	if err != nil {
-		return err
+		log.Fatal("can't open data file.")
 	}
 	defer file.Close()
 
@@ -24,19 +25,22 @@ func (storage FileStorage) Append(item Item) error {
 
 	bytes, err := json.Marshal(item)
 	if err != nil {
-		return err
+		log.Fatal("json serialization error")
 	}
 	_, err = fmt.Fprintln(writer, string(bytes))
 	if err != nil {
-		return err
+		log.Fatal("write data error")
 	}
-	return writer.Flush()
+	err = writer.Flush()
+	if err != nil {
+		log.Fatal("flush data error")
+	}
 }
 
-func (storage FileStorage) All() ([]Item, error) {
+func (storage FileStorage) All() []Item {
 	file, err := openFile(storage)
 	if err != nil {
-		return nil, err
+		log.Fatal("can't open data file.")
 	}
 	defer file.Close()
 
@@ -50,17 +54,17 @@ func (storage FileStorage) All() ([]Item, error) {
 		item := Item{}
 		err = json.Unmarshal([]byte(line), &item)
 		if err != nil {
-			return nil, err
+			log.Fatal("json deserialization error")
 		}
 		result = append(result, item)
 	}
-	return result, nil
+	return result
 }
 
-func (storage FileStorage) replaceAll(items ...Item) error {
+func (storage FileStorage) replaceAll(items ...Item) {
 	file, err := truncFile(storage)
 	if err != nil {
-		return err
+		log.Fatal("can't open data file.")
 	}
 	defer file.Close()
 
@@ -68,14 +72,17 @@ func (storage FileStorage) replaceAll(items ...Item) error {
 	for _, item := range items {
 		bytes, err := json.Marshal(item)
 		if err != nil {
-			return err
+			log.Fatal("json serialization error")
 		}
 		_, err = fmt.Fprintln(writer, string(bytes))
 		if err != nil {
-			return err
+			log.Fatal("write data error")
 		}
 	}
-	return writer.Flush()
+	err = writer.Flush()
+	if err != nil {
+		log.Fatal("flush data error")
+	}
 }
 
 func openFile(storage FileStorage) (*os.File, error) {
