@@ -58,10 +58,37 @@ func (storage FileStorage) All(factory ItemFactory) ([]interface{}, error) {
 	return result, nil
 }
 
+func (storage FileStorage) replaceAll(items ...interface{}) error {
+	file, err := truncFile(storage)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := bufio.NewWriter(file)
+	for _, item := range items {
+		bytes, err := json.Marshal(item)
+		if err != nil {
+			return err
+		}
+		_, err = fmt.Fprintln(writer, string(bytes))
+		if err != nil {
+			return err
+		}
+	}
+	return writer.Flush()
+}
+
 func openFile(storage FileStorage) (*os.File, error) {
 	ensureDirExists(storage.dir)
 	filePath := storage.dir + storage.fileName
 	return os.OpenFile(filePath, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0777)
+}
+
+func truncFile(storage FileStorage) (*os.File, error) {
+	ensureDirExists(storage.dir)
+	filePath := storage.dir + storage.fileName
+	return os.OpenFile(filePath, os.O_APPEND|os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0777)
 }
 
 func ensureDirExists(dir string) {
