@@ -6,7 +6,7 @@ import (
 )
 
 func TestGetTodoList(t *testing.T) {
-	todoList := GetTodoList()
+	todoList := GetTodoList("default")
 
 	assert.NotNil(t, todoList)
 }

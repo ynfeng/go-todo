@@ -1,13 +1,16 @@
 package cmd
 
 import (
+	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
+	"github.com/ynfeng/todo/internal/pkg/appcontext"
 	"github.com/ynfeng/todo/internal/pkg/console"
 	"os"
 	"testing"
 )
 
 func TestAddItem(t *testing.T) {
+	appcontext.SwitchWorkSpace(uuid.NewV4().String())
 	os.Args = []string{"", "add", "foo"}
 	writer := &console.TestableWriter{}
 	console.SetOut(writer)
@@ -23,6 +26,7 @@ func TestAddItem(t *testing.T) {
 }
 
 func TestNotGivenItemName(t *testing.T) {
+	appcontext.SwitchWorkSpace(uuid.NewV4().String())
 	os.Args = []string{"", "add", ""}
 	writer := &console.TestableWriter{}
 	console.SetOut(writer)

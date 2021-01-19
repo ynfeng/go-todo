@@ -23,7 +23,7 @@ func (addCmd *AddCmd) Run(cmd *cobra.Command, args []string) {
 }
 
 func addItemToTodoList(name string) *todolist.TodoList {
-	todoList := appcontext.GetTodoList()
+	todoList := appcontext.GetTodoList(appcontext.WorkSpace)
 	todoList.Add(*todolist.NewItem(name))
 	return todoList
 }
