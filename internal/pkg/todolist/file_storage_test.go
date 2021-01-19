@@ -30,7 +30,6 @@ func TestReplaceAll(t *testing.T) {
 	assert.Equal(t, allItems[0], *NewItem("test1"))
 
 	storage.replaceAll(*NewItem("test3"), *NewItem("test4"))
-
 	replacedItems := storage.All()
 	assert.Equal(t, *NewItem("test3"), replacedItems[0])
 	assert.Equal(t, *NewItem("test4"), replacedItems[1])
