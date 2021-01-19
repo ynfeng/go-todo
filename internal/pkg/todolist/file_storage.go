@@ -1,4 +1,4 @@
-package storage
+package todolist
 
 import (
 	"bufio"
@@ -13,7 +13,7 @@ type FileStorage struct {
 	fileName string
 }
 
-func (storage FileStorage) Append(item interface{}) error {
+func (storage FileStorage) Append(item Item) error {
 	file, err := openFile(storage)
 	if err != nil {
 		return err
@@ -26,7 +26,6 @@ func (storage FileStorage) Append(item interface{}) error {
 	if err != nil {
 		return err
 	}
-
 	_, err = fmt.Fprintln(writer, string(bytes))
 	if err != nil {
 		return err
@@ -34,21 +33,21 @@ func (storage FileStorage) Append(item interface{}) error {
 	return writer.Flush()
 }
 
-func (storage FileStorage) All(factory ItemFactory) ([]interface{}, error) {
+func (storage FileStorage) All() ([]Item, error) {
 	file, err := openFile(storage)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	result := make([]interface{}, 0)
+	result := make([]Item, 0)
 	buf := bufio.NewReader(file)
 	for {
 		line, err := buf.ReadString('\n')
 		if err == io.EOF {
 			break
 		}
-		item := factory()
+		item := Item{}
 		err = json.Unmarshal([]byte(line), &item)
 		if err != nil {
 			return nil, err
@@ -58,7 +57,7 @@ func (storage FileStorage) All(factory ItemFactory) ([]interface{}, error) {
 	return result, nil
 }
 
-func (storage FileStorage) replaceAll(items ...interface{}) error {
+func (storage FileStorage) replaceAll(items ...Item) error {
 	file, err := truncFile(storage)
 	if err != nil {
 		return err

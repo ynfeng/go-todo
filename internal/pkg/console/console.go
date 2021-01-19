@@ -11,7 +11,7 @@ var out io.Writer = os.Stdout
 
 func PrintItems(items []todolist.Item) {
 	for i, item := range items {
-		fmt.Fprintf(out, "%d. %s\n", i+1, item.Name())
+		fmt.Fprintf(out, "%d. %s\n", i+1, item.Name)
 	}
 	fmt.Fprintf(out, "\n")
 }

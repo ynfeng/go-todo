@@ -1,7 +1,12 @@
 package appcontext
 
-import "github.com/ynfeng/todo/internal/pkg/todolist"
+import (
+	"github.com/mitchellh/go-homedir"
+	"github.com/ynfeng/todo/internal/pkg/todolist"
+)
 
 func GetTodoList() *todolist.TodoList {
-	return todolist.NewTodoList()
+	dataDir, _ := homedir.Expand("~/.todo")
+	fileStorage := todolist.NewFileStorage(dataDir, "test")
+	return todolist.NewTodoList(fileStorage)
 }

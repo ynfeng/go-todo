@@ -1,11 +1,13 @@
 package todolist
 
 type TodoList struct {
-	items []Item
+	items   []Item
+	storage Storage
 }
 
 func (list *TodoList) Add(item Item) {
 	list.items = append(list.items, item)
+	list.storage.Append(item)
 }
 
 func (list *TodoList) Get(idx int) *Item {
@@ -16,6 +18,9 @@ func (list *TodoList) All() []Item {
 	return list.items
 }
 
-func NewTodoList() *TodoList {
-	return &TodoList{}
+func NewTodoList(storage Storage) *TodoList {
+	todoList := &TodoList{storage: storage}
+	all, _ := storage.All()
+	todoList.items = all
+	return todoList
 }

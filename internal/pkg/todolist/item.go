@@ -1,13 +1,9 @@
 package todolist
 
 type Item struct {
-	name string
+	Name string `json:"Name"`
 }
 
 func NewItem(name string) *Item {
-	return &Item{name: name}
-}
-
-func (item Item) Name() string {
-	return item.name
+	return &Item{Name: name}
 }
