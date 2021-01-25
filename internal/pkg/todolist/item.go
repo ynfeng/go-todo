@@ -6,15 +6,15 @@ type Item struct {
 }
 
 func (item *Item) Done() {
-	item.Status = ItemStatus{value: DONE}
+	item.Status = ItemStatus{Value: DONE}
 }
 
 type ItemStatus struct {
-	value string `json:"Value"`
+	Value string `json:"Value"`
 }
 
 func (status ItemStatus) IsDone() bool {
-	return status.value == DONE
+	return status.Value == DONE
 }
 
 const (
